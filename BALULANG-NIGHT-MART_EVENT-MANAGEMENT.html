@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balulang Night Market - Event Management System</title>
+    <style>
+        /* CSS - Blue Violet Theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: #333;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h2 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-small { padding: 0.7rem 1.5rem; font-size: 0.9rem; }
+
+        /* Features */
+        .features { padding: 4rem 0; background: rgba(255, 255, 255, 0.95); }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Forms & Tables */
+        .form-section, .table-container {
+            background: white;
+            margin: 2rem 0;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.2rem;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        tr:hover {
+            background: linear-gradient(90deg, #f0f4ff, #f8f9ff);
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status.paid { background: #d4edda; color: #155724; }
+        .status.pending { background: #fff3cd; color: #856404; }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0,0,0,0.9);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header .container { flex-direction: column; gap: 1rem; }
+            .nav { flex-wrap: wrap; justify-content: center; }
+            .hero h2, .page-title { font-size: 2.2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HOME PAGE (Default) -->
+<div id="home" class="page active">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Balulang Night Market</h1>
+            <nav class="nav">
+                <a href="#" onclick="showPage('home')" class="nav-btn active">Home</a>
+                <a href="#" onclick="showPage('stalls')" class="nav-btn">Stall Allocation</a>
+                <a href="#" onclick="showPage('payment')" class="nav-btn">Payment Method</a>
+                <a href="#" onclick="showPage('performers')" class="nav-btn">Performer Registration</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-btn">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Event Management System</h2>
+            <p>Welcome to Balulang Night Market! <br>Manage stalls, payments, performers, and view our vibrant gallery.</p>
+            <div class="hero-buttons">
+                <a href="#" onclick="showPage('stalls')" class="btn btn-primary">Get a Stall</a>
+                <a href="#" onclick="showPage('performers')" class="btn btn-secondary">Register as Performer</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Stall Allocation</h3>
+                    <p>Reserve your perfect stall location with easy online registration.</p>
+                    <a href="#" onclick="showPage('stalls')" class="btn btn-small btn-primary">View Stalls →</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Payment Method</h3>
+                    <p>Secure & convenient payment options via GCash, Maya, and bank transfer.</p>
+                    <a href="#" onclick="showPage('payment')" class="btn btn-small btn-primary">Learn More →</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Performer Registration</h3>
+                    <p>Showcase your talent and entertain thousands of visitors!</p>
+                    <a href="#" onclick="showPage('performers')" class="btn btn-small btn-primary">Register Now →</a>
+                </div>
+                <div class="feature-card">
+                    <h3>Gallery</h3>
+                    <p>Relive the magic of previous Balulang Night Markets.</p>
+                    <a href="#" onclick="showPage('gallery')" class="btn btn-small btn-primary">View Gallery →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- STALL ALLOCATION PAGE -->
+<div id="stalls" class="page">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Balulang Night Market</h1>
+            <nav class="nav">
+                <a href="#" onclick="showPage('home')" class="nav-btn">← Home</a>
+                <a href="#" onclick="showPage('stalls')" class="nav-btn active">Stall Allocation</a>
+                <a href="#" onclick="showPage('payment')" class="nav-btn">Payment</a>
+                <a href="#" onclick="showPage('performers')" class="nav-btn">Performers</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-btn">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 class="page-title">Stall Allocation</h2>
+            <p>Reserve your spot at the most vibrant night market in town!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="form-section">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 2rem;">Register New Stall</h3>
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" placeholder="e.g., GrillMaster BBQ" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Owner Name</label>
+                        <input type="text" placeholder="e.g., Juan Dela Cruz" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Business Email</label>
+                        <input type="text" placeholder="e.g, juandelacruz@gmail.com" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="tel" placeholder="0917-xxx-xxxx" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <select required>
+                        <option value="">Select Product Type</option>
+                        <option>Food</option>
+                        <option>Drinks</option>
+                        <option>Clothing</option>
+                        <option>Accessories</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.2rem;">Submit Registration</button>
+            </form>
+        </section>
+
+        <section class="table-container">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;"> Allocated Stalls (45/100 Available)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Owner</th>
+                        <th>Stall #</th>
+                        <th>Size</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GrillMaster BBQ</td>
+                        <td>Juan Dela Cruz</td>
+                        <td>01</td>
+                        <td><span class="status paid">Paid</span></td>
+                        <td>₱1,200</td>
+                    </tr>
+                    <tr>
+                        <td>SweetTreats Dessert</td>
+                        <td>Maria Santos</td>
+                        <td>05</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td>₱800</td>
+                    </tr>
+                    <tr>
+                        <td>TechGadgets PH</td>
+                        <td>Pedro Reyes</td>
+                        <td>12</td>
+                        <td><span class="status paid">Paid</span></td>
+                        <td>₱500</td>
+                    </tr>
+                    <tr>
+                        <td>FashionHub</td>
+                        <td>Ana Lim</td>
+                        <td>08</td>
+                        <td><span class="status paid">Paid</span></td>
+                        <td>₱1,200</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<!-- PAYMENT PAGE (Continued from your code) -->
+<div id="payment" class="page">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Balulang Night Market</h1>
+            <nav class="nav">
+                <a href="#" onclick="showPage('home')" class="nav-btn">← Home</a>
+                <a href="#" onclick="showPage('stalls')" class="nav-btn">Stalls</a>
+                <a href="#" onclick="showPage('payment')" class="nav-btn active">Payment</a>
+                <a href="#" onclick="showPage('performers')" class="nav-btn">Performers</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-btn">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 class="page-title">Payment Methods</h2>
+            <p>Secure & convenient payment options for your stall reservation!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="form-section">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 2rem;">Choose Your Payment Method</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white; padding: 2rem; border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease;" onclick="selectPayment('cash')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
+                    <h4>CASH</h4>
+                    <p>Pay when you pick up your stall assignment</p>
+                    <div id="cash-price" style="font-size: 1.5rem; font-weight: bold; margin-top: 1rem;">Starting at ₱500</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #00d2d3, #11998e); color: white; padding: 2rem; border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease;" onclick="selectPayment('gcash')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💳</div>
+                    <h4>GCASH</h4>
+                    <p>Instant payment via GCash QR</p>
+                    <div id="gcash-price" style="font-size: 1.5rem; font-weight: bold; margin-top: 1rem;">Starting at ₱500</div>
+                </div>
+            </div>
+            
+            <div id="payment-details" style="background: #f8f9ff; padding: 2rem; border-radius: 15px; border-left: 5px solid #667eea; display: none;">
+                <h4 id="selected-method" style="color: #667eea; margin-bottom: 1rem;"></h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stall Number</label>
+                        <input type="text" id="stall-number" placeholder="e.g., Stall-01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="payment-amount" placeholder="₱1,200" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Transaction Reference (GCash only)</label>
+                    <input type="text" id="transaction-ref" placeholder="Enter GCash transaction ID">
+                </div>
+                <button type="button" onclick="processPayment()" class="btn btn-primary" style="width: 100%; font-size: 1.2rem;">Confirm Payment</button>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;">Recent Payments (24/50 Processed Today)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stall #</th>
+                        <th>Method</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>STALL-01</td>
+                        <td><span style="color: #00d2d3;">GCash</span></td>
+                        <td>₱1,200</td>
+                        <td><span class="status paid">Verified</span></td>
+                        <td>Today 2:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td>STALL-05</td>
+                        <td><span style="color: #ff6b6b;">Cash</span></td>
+                        <td>₱800</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td>Today 1:15 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<!-- PERFORMER REGISTRATION PAGE -->
+<div id="performers" class="page">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Balulang Night Market</h1>
+            <nav class="nav">
+                <a href="#" onclick="showPage('home')" class="nav-btn">← Home</a>
+                <a href="#" onclick="showPage('stalls')" class="nav-btn">Stalls</a>
+                <a href="#" onclick="showPage('payment')" class="nav-btn">Payment</a>
+                <a href="#" onclick="showPage('performers')" class="nav-btn active">Performers</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-btn">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 class="page-title">Performer Registration</h2>
+            <p>Showcase your talent to thousands of visitors!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="form-section">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 2rem;">Register Your Performance</h3>
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Performer Name/Group</label>
+                        <input type="text" placeholder="e.g., Fire Dancers PH" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="tel" placeholder="0917-xxx-xxxx" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Performance Type</label>
+                        <select required>
+                            <option value="">Select Type</option>
+                            <option>Dancer</option>
+                            <option>Singer</option>
+                            <option>Band</option>
+                            <option>Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Time Slot</label>
+                        <select required>
+                            <option value="">Select Time</option>
+                            <option>6:00 PM - 7:00 PM</option>
+                            <option>7:00 PM - 8:00 PM</option>
+                            <option>8:00 PM - 9:00 PM</option>
+                            <option>9:00 PM - 10:00 PM</option>
+                            <option>10:00 PM - 11:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Short Description</label>
+                    <textarea rows="4" placeholder="Describe your performance (max 200 words)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.2rem;">Register Performance</button>
+            </form>
+        </section>
+
+        <section class="table-container">
+            <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;">Scheduled Performances (12/15 Slots Filled)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Performer</th>
+                        <th>Type</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jabbawockeez</td>
+                        <td>Dancer</td>
+                        <td>8:00 PM</td>
+                        <td><span class="status paid">Confirmed</span></td>
+                    </tr>
+                    <tr>
+                        <td>Acoustic Nights</td>
+                        <td>Singer</td>
+                        <td>7:00 PM</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<!-- GALLERY PAGE -->
+<div id="gallery" class="page">
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Balulang Night Market</h1>
+            <nav class="nav">
+                <a href="#" onclick="showPage('home')" class="nav-btn">← Home</a>
+                <a href="#" onclick="showPage('stalls')" class="nav-btn">Stalls</a>
+                <a href="#" onclick="showPage('payment')" class="nav-btn">Payment</a>
+                <a href="#" onclick="showPage('performers')" class="nav-btn">Performers</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-btn active">Gallery</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 class="page-title">Gallery</h2>
+            <p>Relive the magic of Balulang Night Market!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://i.ytimg.com/vi/cmkRDzUT6EY/maxresdefault.jpg" alt="Night market stalls">
+                <div style="padding: 1.5rem;">
+                    <h4>Vibrant Stalls</h4>
+                    <p>Colorful food stalls lighting up the night</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/652093388_1343598054452661_1242331561473888233_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeH6g6st2IMG3Y5n4i8lQI0kNMEDJ8nx3VE0wQMnyfHdUdEXieO2KYqyWuGRvmrs46Y_76MPyOZC46w1tc3fGxDx&_nc_ohc=D8nEeTXs6bEQ7kNvwFeGfY1&_nc_oc=AdqMK3M7IqGpUdHeUZ90cH67J5jnXaga4-v9mm-E3hgaD--elPPevLUJOJdylBqMeGw&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=LuAqW_ELYrG2a_J9Dp1RIA&_nc_ss=7a3a8&oh=00_Af3ErMFNwa1ErA8SQK8yGk0Y2EbDCIyM8rqyOqpydV68yA&oe=69DB8D31" alt="Crowd">
+                <div style="padding: 1.5rem;">
+                    <h4>Happy Crowd</h4>
+                    <p>Thousands enjoying the night market</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/652346860_1343598027785997_1000938230912138628_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeGWU0nwEDCG1Djk8q8jQDTfFTNINyjdxY8VM0g3KN3FjxnMMyGsLi80zDkm8my0EBChDMKeLE8FvRSofQPVCDlA&_nc_ohc=5yoj94TsFwwQ7kNvwHTCSvi&_nc_oc=AdrMSJfwge-X4u7dZ6Hll3bNv6An-2f73yzNvlbG3jQqFDvL-KgB3p5hugL2lrgHYOM&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=4LiTKo7sdX_-_76L5ZB8Bg&_nc_ss=7a3a8&oh=00_Af1OnVGp-LvS4tbTfkP917zmnd41EEMtaWrs8OS9M_tJ1g&oe=69DB8D16" alt="Food">
+                <div style="padding: 1.5rem;">
+                    <h4>Street Food</h4>
+                    <p>Delicious treats from local vendors</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/653056336_1343598737785926_8793987380191206555_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeG7N_fKFCeozzecJ2edTeN2gB9JRz477i2AH0lHPjvuLUDQ3EsBq-vojskH9GJPaHbLcB4liSf8yIYKLmCspi3n&_nc_ohc=vqMe7ilBE6QQ7kNvwGxp4mD&_nc_oc=AdoBxTUDuingTzPqgfKtqViuBms61R60W2B5T5c9VbWBAFxoKUDcdEzKuLTbF_lwvl4&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=RvcDTZPtdC3RvKBV1bsGoA&_nc_ss=7a3a8&oh=00_Af1sZ31I0-fuRvwYc1MXY_QhiciCr1Gdd4vfEfvy4k862A&oe=69DBBF84" alt="Performance">
+                <div style="padding: 1.5rem;">
+                    <h4>Live Performance</h4>
+                    <p>Performances to lighten up the mood</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/652909900_1343597861119347_7653367720438764208_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEYxOKOaaYzp_gVqCHcgFZRFK7oV7O6KTYUruhXs7opNjf5fkpjm7XbhZjBuZZzu5dgLX9IwhmPuCOmu3g6odwa&_nc_ohc=wDiJYhfooqQQ7kNvwGqi4E9&_nc_oc=AdrC6dNDoDXIlrPPj8IKJhNMWeOZvtr9lV2Cv1PaD-FijVOij6zNFTLa87GpG4Pm54w&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=iFOxveuAwF7YO7lZpwN3IA&_nc_ss=7a3a8&oh=00_Af1FkZhghzriklPLHWNOgLnmgsl0ci5RGmzng3dV3STidQ&oe=69DBA03D" alt="Beverages">
+                <div style="padding: 1.5rem;">
+                    <h4>Beverages</h4>
+                    <p>A place to chill with your friends and family, to quench your thirst</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/652303554_1343598467785953_2756128097760462148_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHxkibN44_BJSLvqUsZ9bTZw9hwnJWU0rrD2HCclZTSuuV3CmnEnJ15UGKpG2l8GMCG-Z6cSpLPHVWaBBinTOrq&_nc_ohc=iWqpFhP-7qgQ7kNvwH2DD_g&_nc_oc=AdqQ9JAFg56dJV3kZT7-Ebx0M-ixLJoMWx6NF7Z-3RNBiC6iUvcrRpqc7mHI7unTWw4&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=0KBJD-yb1wl0zZBYIGpqkA&_nc_ss=7a3a8&oh=00_Af2HSeduNn_lop_O9Xe4cYbvcILCS5FaJ9adw20BqLG7WA&oe=69DBA539" alt="Market">
+                <div style="padding: 1.5rem;">
+                    <h4>Bustling Market</h4>
+                    <p>Energy and excitement everywhere</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 Balulang Night Market. All rights reserved. | Organized by Cagayan de Oro Local Government</p>
+    </div>
+</footer>
+<script>
+    // Page Navigation (NO SCROLLING - Clean SPA)
+    function showPage(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+            page.style.display = 'none';
+        });
+       
+        // Show selected page
+        const targetPage = document.getElementById(pageId);
+        targetPage.style.display = 'block';
+        setTimeout(() => targetPage.classList.add('active'), 10);
+       
+        // Update nav active states
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+       
+        // Smooth scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+    // Payment Selection
+    let selectedPayment = '';
+    function selectPayment(method) {
+        selectedPayment = method;
+        document.getElementById('payment-details').style.display = 'block';
+       
+        if (method === 'cash') {
+            document.getElementById('selected-method').textContent = 'CASH ON DELIVERY Selected';
+            document.getElementById('transaction-ref').style.display = 'none';
+            document.getElementById('payment-amount').value = '1200';
+        } else {
+            document.getElementById('selected-method').textContent = 'GCASH Selected';
+            document.getElementById('transaction-ref').style.display = 'block';
+            document.getElementById('payment-amount').value = '1200';
+        }
+    }
+
+
+    function processPayment() {
+        alert('Payment processed successfully! Check your email for confirmation.');
+    }
+
+
+    // Form Submissions
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Registration submitted successfully! We will contact you soon.');
+        });
+    });
+
+
+    // Initialize home page
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('home').style.display = 'block';
+        document.getElementById('home').classList.add('active');
+    });
+</script>
+
+</body>
+</html>
+   
